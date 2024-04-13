@@ -20,6 +20,7 @@
         protected List<byte[]> MagicNumbers { get; } = [];
 
         protected int MaxMagicNumberLength { get; }
+
         public string TypeName { get; set; }
 
         public bool IsIncludedExtention(string extension)
