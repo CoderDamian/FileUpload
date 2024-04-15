@@ -8,18 +8,30 @@ namespace FileValidation
 
         public static Result Validate(IFormFile file)
         {
-            var file_extension = Path.GetExtension(file.FileName);
 
-            var target_type = AllowedFormats.FirstOrDefault(x => x.IsIncludedExtention(file_extension));
+            if (IsFileNull(file))
+            {
+                return new Result(false, Status.FAKE, "the file is null");
+            }
+
+            string? file_extension = Path.GetExtension(file.FileName);
+
+            FileFormatDescriptor? target_type = AllowedFormats.FirstOrDefault(x => x.IsIncludedExtention(file_extension));
 
             if (target_type is null)
             {
                 return new Result(false, Status.NOT_SUPPORTED, $"{Status.NOT_SUPPORTED}");
             }
-            else
+
+            if (target_type.IsFileSizeExceeded(file.Length))
             {
-                return target_type.Validate(file);
+                return new Result(false, Status.SIZE_EXCEEDED, $"{Status.SIZE_EXCEEDED}");
             }
+
+            return target_type.Validate(file);
         }
+
+        private static bool IsFileNull(IFormFile file)
+            => file is null || file.Length == 0;
     }
 }

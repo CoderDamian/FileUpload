@@ -5,6 +5,7 @@
         protected override void Initialize()
         {
             TypeName = "IMAGE FILE";
+            MaximumFileSize = 1024 * 1024;
             Extensions.UnionWith([".jpeg", ".jpg", ".png"]);
             MagicNumbers.AddRange(new byte[][]
              {
