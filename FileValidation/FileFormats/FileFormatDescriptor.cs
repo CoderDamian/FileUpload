@@ -21,10 +21,15 @@
 
         protected int MaxMagicNumberLength { get; }
 
+        protected long MaximumFileSize { get; set; }
+
         public string TypeName { get; set; }
 
         public bool IsIncludedExtention(string extension)
             => Extensions.Contains(extension);
+
+        public bool IsFileSizeExceeded(long limit)
+            => limit > MaximumFileSize;
 
         /// <summary>
         /// Will be responsible for performing validation
